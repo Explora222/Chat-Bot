@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI ChatBot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0d0d0d;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      background: #1e1e1e;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      background: #272727;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      border-bottom: 1px solid #333;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: #4e9eff;
+      color: #fff;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: #3a3a3a;
+      color: #e0e0e0;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #333;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      background: #2c2c2c;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    button {
+      background: #4e9eff;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #367bd2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="header">🤖 AI ChatBot</div>
+  <div class="chat-box" id="chat-box">
+    <div class="message bot">Hi! I’m your AI ChatBot. Ask me anything 👋</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="user-input" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const chatBox = document.getElementById('chat-box');
+  const userInput = document.getElementById('user-input');
+
+  function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === '') return;
+
+    // Add user's message
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.innerText = message;
+    chatBox.appendChild(userMsg);
+
+    // Auto-scroll
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Clear input
+    userInput.value = '';
+
+    // Simulate AI response after a short delay
+    setTimeout(() => {
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot';
+      botMsg.innerText = getBotReply(message);
+      chatBox.appendChild(botMsg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }, 500);
+  }
+
+  // Simple "AI" logic – You can expand this
+  function getBotReply(input) {
+    input = input.toLowerCase();
+
+    if (input.includes('hello') || input.includes('hi')) {
+      return 'Hello! 👋 How can I assist you today?';
+    } else if (input.includes('your name')) {
+      return 'I’m your friendly AI assistant 😄';
+    } else if (input.includes('build a website')) {
+      return 'Sure! I recommend using HTML, CSS, and JavaScript. Need help getting started?';
+    } else if (input.includes('bye')) {
+      return 'Goodbye! Have a great day! 👋';
+    } else {
+      return "I'm still learning! 🤖 Can you try asking something else?";
+    }
+  }
+
+  // Allow pressing Enter to send message
+  userInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  });
+</script>
+
+</body>
+</html>
